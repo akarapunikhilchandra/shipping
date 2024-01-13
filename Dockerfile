@@ -17,7 +17,7 @@ RUN mvn package
 FROM openjdk:8-jre-alpine3.9
 EXPOSE 8080
 WORKDIR /opt/shipping
-COPY --from=build /opt/shipping/target/shipping-3.0.jar shipping.jar
+COPY --from=build /opt/shipping/target/shipping-1.0.jar shipping.jar
 CMD [ "java", "-Xmn256m", "-Xmx768m", "-jar", "shipping.jar" ]
 
 # FROM maven
