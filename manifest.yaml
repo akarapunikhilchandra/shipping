@@ -1,0 +1,54 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata: 
+  name: shipping 
+  namespace: roboshop 
+  labels:   
+    app: shipping 
+    tier: app 
+    project: roboshop 
+spec: 
+  replicas: 1
+  selector:     
+    matchLabels: 
+      app: shipping 
+      tier: app 
+      project: roboshop 
+  template: 
+    metadata: 
+      labels: 
+        app: shipping 
+        tier: app 
+        project: roboshop 
+    spec: 
+      containers: 
+      - name: shipping 
+        image: akarapunikhilchandra/shipping:1.0.0 
+        envFrom:
+        - configMapRef: 
+            name: shipping 
+--- 
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: shipping 
+  namespace: roboshop 
+spec: 
+  selector:
+    app: shipping 
+    tier: app 
+    project: roboshop 
+  ports: 
+  - name: shipping-port 
+    protocol: TCP
+    port: 8080
+    targetPort: 8080 
+---
+apiVersion: v1 
+kind: ConfigMap 
+metadata: 
+  name: shipping 
+  namespace: roboshop 
+data: 
+  CART_ENDPOINT: "cart:8080"
+  DB_HOST: "mysql"
